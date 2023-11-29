@@ -1,0 +1,9 @@
+# LINK PARA ACHAR O WEBDRIVER NA VERSÃO CERTA
+# https://googlechromelabs.github.io/chrome-for-testing/#stable
+# SELECIONE A URL DA VERSAO DO WEBDRIVER DO SEU CHROME, COPIE E COLE NO NAVEGADOR
+# FAÇA O DOWNLOAD, EXTRAIA A PASTA NO DISCO C
+
+Caso o seu chrome esteja na versão 119, 
+é só mover a pasta chromedriver-win64 para o disco C
+e veja se o código irá dar certo. 
+Se não, entre no link e encontre o chomedriver da versão do seu chrome.
