@@ -4,25 +4,28 @@ from bs4 import BeautifulSoup
 import time
 import pandas as pd
 from selenium import webdriver
+import os
 
+# PROCURE A VERSÃO DO SEU CHROME ASSIM:
+# Clique nos 3 pontinhos -> Configurações -> Sobre o Chrome -> veja a versão
 
 # LINK PARA ACHAR O WEBDRIVER NA VERSÃO CERTA
 # https://googlechromelabs.github.io/chrome-for-testing/#stable
+
 # SELECIONE A URL DA VERSAO DO WEBDRIVER DO SEU CHROME, COPIE E COLE NO NAVEGADOR
-# FAÇA O DOWNLOAD, EXTRAIA A PASTA NO DISCO C
+# FAÇA O DOWNLOAD, EXTRAIA A PASTA NESTA PASTA
 
-urls = [
+# Se trocar o ChromeDriver, atualize o endereço abaixo
+# para o endereço do seu chromedriver do seu PC
+dir = os.getcwd() + '\chromedriver-win64\chromedriver.exe'
 
-    'https://exoplanets.nasa.gov/exoplanet-catalog/'
+#acessando o chrome driver no endereço guardado na variável dir
+service = webdriver.ChromeService(executable_path=dir)
 
-]
-cService = webdriver.ChromeService(
-    executable_path="C:\chromedriver-win64\chromedriver.exe")
-for url in urls:
-    driver = webdriver.Chrome(service=cService)
-    driver.get(url)
+driver = webdriver.Chrome(service=service)
 
 # URL dos Exoplanetas da NASA
+driver.get('https://exoplanets.nasa.gov/exoplanet-catalog/')
 
 time.sleep(10)
 
@@ -56,7 +59,7 @@ def scrape():
 
             planets_data.append(temp_list)
 
-        # Encontre todos os elementos na página e clique para passar para a próxima página
+        # Encontre o botão na página e clique para passar para a próxima página
         driver.find_element(
             by=By.XPATH, value='//*[@id="primary_column"]/footer/div/div/div/nav/span[2]/a').click()
 
@@ -69,7 +72,7 @@ headers = ["name", "light_years_from_earth",
            "planet_mass", "stellar_magnitude", "discovery_date"]
 
 # Defina o dataframe do pandas
-planet_df_1 = pd.DataFrame(planets_data, columns=headers)
+dataframe = pd.DataFrame(planets_data, columns=headers)
 
 # Converta para CSV
-planet_df_1.to_csv('scraped_data.csv', index=True, index_label="id")
+dataframe.to_csv('scraped_data.csv', index=True, index_label="id")
